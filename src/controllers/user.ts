@@ -3,7 +3,13 @@ import { z } from '../../deps.ts'
 import { oak } from '../../deps.ts';
 import User from '../models/user.ts';
 import Session from '../models/session.ts'
+import { ctx } from '../types.ts'
 
+export interface UserLean {
+  _id: string,
+  username: string
+  password: string
+}
 
 const registerSchema = z.object({
   username: z.string()
@@ -57,6 +63,10 @@ export async function verifyToken(token: string | null) {
   if (!token) return false;
   const session = await Session.where('token', token).first();
   return User.where('username', session.username as string).first();
+}
+
+export function getLoggedInUser(ctx: any): UserLean {
+  return ctx.user
 }
 
 

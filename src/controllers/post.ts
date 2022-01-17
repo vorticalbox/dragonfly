@@ -2,6 +2,7 @@ import { z } from '../../deps.ts'
 import { oak } from '../../deps.ts';
 import { ctx } from '../types.ts'
 import Post from '../models/post.ts';
+import { getLoggedInUser } from "./user.ts";
 
 const postValidation = z.object({
   title: z.string()
@@ -17,10 +18,11 @@ export async function getPosts({ response }: oak.Context) {
   response.body = await Post.limit(50).orderBy('updatedAt', "desc").all()
 }
 
-export async function addPost({ request, response, user }: ctx) {
-  const post = await request.body({ type: "json" }).value;
+export async function addPost(ctx: oak.Context) {
+  const post = await ctx.request.body({ type: "json" }).value;
   const parsedPost = postValidation.parse(post);
-  response.body = await Post.create({ ...parsedPost, ...user && { username: user?.username } });
+  const user = getLoggedInUser(ctx);
+  ctx.response.body = await Post.create({ ...parsedPost, username: user.username });
 }
 
 export default {

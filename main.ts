@@ -28,15 +28,16 @@ const router = new Router();
 router.get('/heartbeat', ({ response }: oak.Context) => response.body = 'hello world');
 router.post('/register', user.register);
 router.post('/login', user.login);
-router.use(async (ctx: ctx, next) => {
+router.use(async (ctx, next) => {
   const token = ctx.request.headers.get('X-access-token');
   const userDoc = await user.verifyToken(token);
   if (!userDoc) {
     ctx.response.status = 401;
     ctx.response.body = 'access denied';
   } else {
-    // denoDB returns `Model` as a type but doesn't show the keys
-    ctx.user = userDoc as any;
+    // TODO: type this
+    //@ts-ignore
+    ctx.user = userDoc;
     await next();
   }
 })
