@@ -1,6 +1,5 @@
 import { config } from "https://deno.land/x/dotenv@v3.1.0/mod.ts";
 import { denodb, oak, z } from './deps.ts'
-import { ctx } from './src/types.ts'
 //models
 import PostModel from "./src/models/post.ts";
 import UserModel from './src/models/user.ts';

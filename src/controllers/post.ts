@@ -1,6 +1,5 @@
 import { z } from '../../deps.ts'
 import { oak } from '../../deps.ts';
-import { ctx } from '../types.ts'
 import Post from '../models/post.ts';
 import { getLoggedInUser } from "./user.ts";
 

@@ -3,12 +3,16 @@ import { z } from '../../deps.ts'
 import { oak } from '../../deps.ts';
 import User from '../models/user.ts';
 import Session from '../models/session.ts'
-import { ctx } from '../types.ts'
+
 
 export interface UserLean {
   _id: string,
   username: string
   password: string
+}
+
+interface ctx extends oak.Context {
+  user: UserLean
 }
 
 const registerSchema = z.object({
@@ -65,6 +69,7 @@ export async function verifyToken(token: string | null) {
   return User.where('username', session.username as string).first();
 }
 
+//@ts-ignore
 export function getLoggedInUser(ctx: any): UserLean {
   return ctx.user
 }
