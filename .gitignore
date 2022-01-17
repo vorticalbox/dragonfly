@@ -1,0 +1,4 @@
+registries/*
+gen/*
+deps/*
+.env
