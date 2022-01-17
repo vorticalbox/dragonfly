@@ -10,6 +10,7 @@ import posts from './src/controllers/post.ts';
 import user from './src/controllers/user.ts';
 
 const env = config();
+const port = +env.port || 8080;
 
 const { Database, MongoDBConnector } = denodb;
 
@@ -67,5 +68,5 @@ app.use(async (ctx, next) => {
 });
 app.use(router.routes());
 app.use(router.allowedMethods());
-
-await app.listen({ port: 8080 });
+console.log(`Server started on port ${port}`);
+await app.listen({ port });
