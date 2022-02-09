@@ -1,3 +1,4 @@
+import { config } from "https://deno.land/x/dotenv@v2.0.0/mod.ts";
 import { denodb, oak, z } from './deps.ts'
 //models
 import PostModel from "./src/models/post.ts";
@@ -7,7 +8,11 @@ import SessionModel from './src/models/session.ts';
 import posts from './src/controllers/post.ts';
 import user from './src/controllers/user.ts';
 
+config({ export: true });
 const env = Deno.env.toObject();
+if (!env.MONGO_URI) {
+  throw Error('mongo uri missing');
+}
 const port = +env.port || 8080;
 
 const { Database, MongoDBConnector } = denodb;
@@ -42,6 +47,11 @@ router.use(async (ctx, next) => {
 })
 router.get('/post', posts.getPosts);
 router.post('/post', posts.addPost);
+
+router.use(async (ctx) => {
+  ctx.response.status = 404;
+  ctx.response.body = 'Not found';
+})
 
 const app = new Application();
 
