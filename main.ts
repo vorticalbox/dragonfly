@@ -51,7 +51,7 @@ router.use(async (ctx, next) => {
 router.get('/post', posts.getPosts);
 router.post('/post', posts.addPost);
 
-router.all('*', (ctx) => {
+router.use((ctx) => {
   ctx.response.status = 404;
   ctx.response.body = 'Not Found';
 })
