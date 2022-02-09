@@ -8,7 +8,10 @@ import SessionModel from './src/models/session.ts';
 import posts from './src/controllers/post.ts';
 import user from './src/controllers/user.ts';
 
-config({ export: true });
+// @ts-ignore Deno.dev does not have readFileSync
+if (Deno.readFileSync) {
+  config({ export: true });
+}
 const env = Deno.env.toObject();
 if (!env.MONGO_URI) {
   throw Error('mongo uri missing');
