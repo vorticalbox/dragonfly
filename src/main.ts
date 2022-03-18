@@ -1,12 +1,12 @@
 import { config } from "https://deno.land/x/dotenv@v2.0.0/mod.ts";
 import { denodb, oak, z } from './deps.ts'
 //models
-import PostModel from "./src/models/post.ts";
-import UserModel from './src/models/user.ts';
-import SessionModel from './src/models/session.ts';
+import PostModel from "./models/post.ts";
+import UserModel from './models/user.ts';
+import SessionModel from './models/session.ts';
 // controller imports
-import posts from './src/controllers/post.ts';
-import user from './src/controllers/user.ts';
+import posts from './controllers/post.ts';
+import user from './controllers/user.ts';
 
 // @ts-ignore Deno.dev does not have readFileSync
 if (Deno.readFileSync) {

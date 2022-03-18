@@ -69,8 +69,7 @@ export async function verifyToken(token: string | null) {
   return User.where('username', session.username as string).first();
 }
 
-//@ts-ignore
-export function getLoggedInUser(ctx: any): UserLean {
+export function getLoggedInUser(ctx: Record<any, any>): UserLean {
   return ctx.user
 }
 

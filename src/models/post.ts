@@ -1,4 +1,4 @@
-import { denodb } from '../../deps.ts'
+import { denodb } from '../deps.ts'
 const { Model, DataTypes } = denodb;
 
 export class Post extends Model {
