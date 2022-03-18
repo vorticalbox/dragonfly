@@ -1,5 +1,4 @@
-import { z } from '../../deps.ts'
-import { oak } from '../../deps.ts';
+import { z, oak } from '../deps.ts'
 import Post from '../models/post.ts';
 import { getLoggedInUser } from "./user.ts";
 

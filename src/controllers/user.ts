@@ -1,6 +1,5 @@
 import * as scrypt from "https://deno.land/x/scrypt@v2.1.1/mod.ts";
-import { z } from '../../deps.ts'
-import { oak } from '../../deps.ts';
+import { z, oak } from '../deps.ts'
 import User from '../models/user.ts';
 import Session from '../models/session.ts'
 
