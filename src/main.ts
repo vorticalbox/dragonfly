@@ -1,5 +1,5 @@
 import { config } from "https://deno.land/x/dotenv@v2.0.0/mod.ts";
-import { denodb, oak } from './deps.ts'
+import { denodb, oak, RateLimiter } from './deps.ts'
 import router from './router.ts';
 //models
 import PostModel from "./models/post.ts";
@@ -29,7 +29,14 @@ db.link([PostModel, UserModel, SessionModel]);
 db.sync();
 
 const app = new Application();
-
+const rateLimit = RateLimiter({
+  windowMs: 1000, // Window for the requests that can be made in miliseconds.
+  max: 10, // Max requests within the predefined window.
+  headers: true, // Default true, it will add the headers X-RateLimit-Limit, X-RateLimit-Remaining.
+  message: "Too many requests, please try again later.", // Default message if rate limit reached.
+  statusCode: 429, // Default status code if rate limit reached.
+});
+app.use(rateLimit);
 app.use(router.routes());
 app.use(router.allowedMethods());
 console.log(`Server started on port ${port}`);

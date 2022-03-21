@@ -1,10 +1,10 @@
-import { oak, z } from "./deps.ts";
+import { oak, z, } from "./deps.ts";
 // controller imports
 import posts from './controllers/post.ts';
 import user from './controllers/user.ts';
-
 const { Router } = oak;
 const router = new Router();
+
 router.use(async (ctx, next) => {
   try {
     await next();

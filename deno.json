@@ -1,5 +1,5 @@
 {
     "tasks": {
-        "start": "deno run --allow-read --allow-net --allow-env ./src/main.ts"
+        "start": "deno run --lock=lock.json --allow-read --allow-net --allow-env ./src/main.ts"
     }
 }
