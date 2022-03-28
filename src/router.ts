@@ -1,7 +1,8 @@
 import { oak, z, } from "./deps.ts";
 // controller imports
-import posts from './controllers/post.ts';
-import user from './controllers/user.ts';
+import posts from './posts/post_handlers.ts';
+import user from './users/user_handlers.ts';
+import comment from './comments/comment_handlers.ts';
 const { Router } = oak;
 const router = new Router();
 
@@ -41,6 +42,8 @@ router.use(async (ctx, next) => {
 })
 router.get('/post', posts.getPosts);
 router.post('/post', posts.addPost);
+router.get('/comment', comment.getComments);
+router.post('/comment', comment.addComment);
 
 router.use((ctx) => {
   ctx.response.status = 404;
