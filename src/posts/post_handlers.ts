@@ -1,6 +1,7 @@
 import { z, oak } from '../deps.ts'
-import Post from '../models/post.ts';
-import { getLoggedInUser } from "./user.ts";
+import Post from './post_model.ts';
+import { getLoggedInUser } from "../users/user_handlers.ts";
+import parseQuery from '../utils/query.ts';
 
 const postValidation = z.object({
   title: z.string()
@@ -12,8 +13,9 @@ const postValidation = z.object({
 })
 
 
-export async function getPosts({ response }: oak.Context) {
-  response.body = await Post.limit(50).orderBy('updatedAt', "desc").all()
+export async function getPosts(ctx: oak.Context) {
+  const { skip, limit } = parseQuery(ctx)
+  ctx.response.body = await Post.skip(skip).limit(limit).orderBy('updatedAt', "desc").all()
 }
 
 export async function addPost(ctx: oak.Context) {

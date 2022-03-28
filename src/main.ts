@@ -2,12 +2,13 @@ import { config } from "https://deno.land/x/dotenv@v2.0.0/mod.ts";
 import { denodb, oak, RateLimiter } from './deps.ts'
 import router from './router.ts';
 //models
-import PostModel from "./models/post.ts";
-import UserModel from './models/user.ts';
-import SessionModel from './models/session.ts';
+import PostModel from "./posts/post_model.ts";
+import UserModel from './users/user_model.ts';
+import SessionModel from './users/user_session.ts';
+import CommentModel from './comments/comment_model.ts';
 
 const { Application } = oak;
-// @ts-ignore Deno.dev does not have readFileSync
+// @ts-ignore Deno.dev does not have readFileSync so don't load from .env file
 if (Deno.readFileSync) {
   config({ export: true });
 }
@@ -25,7 +26,7 @@ const connector = new MongoDBConnector({
 });
 
 const db = new Database(connector);
-db.link([PostModel, UserModel, SessionModel]);
+db.link([PostModel, UserModel, SessionModel, CommentModel]);
 db.sync();
 
 const app = new Application();
@@ -39,5 +40,7 @@ const rateLimit = RateLimiter({
 app.use(rateLimit);
 app.use(router.routes());
 app.use(router.allowedMethods());
-console.log(`Server started on port ${port}`);
+app.addEventListener('listen', () => {
+  console.log(`Listening on localhost:${port}`);
+});
 await app.listen({ port });
