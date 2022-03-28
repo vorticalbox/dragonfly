@@ -30,8 +30,3 @@ export async function verifyToken(token: string | null) {
   const session = await Session.where('token', token).first();
   return User.where('username', session.username as string).first();
 }
-
-export function get_user(ctx: CTX): UserLean {
-  // @ts-ignore `user` is optional to be compatible with all use of context
-  return ctx.state.user;
-}

@@ -1,7 +1,6 @@
 import { z, oak } from '../deps.ts'
 import Comment from './comment_model.ts';
 import Post from '../posts/post_model.ts';
-import { get_user } from "../users/user_service.ts";
 import parseQuery from '../utils/query.ts'
 import { CTX } from "../types/oak.ts";
 
