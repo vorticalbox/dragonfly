@@ -1,4 +1,5 @@
 import { scrypt } from "../deps.ts";
+import { CTX } from "../types/oak.ts";
 import User from "./user_model.ts";
 import Session from "./user_session_model.ts";
 import { CreateUser, UserLean } from "./user_types.ts";
@@ -30,6 +31,7 @@ export async function verifyToken(token: string | null) {
   return User.where('username', session.username as string).first();
 }
 
-export function get_user(ctx: Record<any, any>): UserLean {
-  return ctx.user
+export function get_user(ctx: CTX): UserLean {
+  // @ts-ignore `user` is optional to be compatible with all use of context
+  return ctx.state.user;
 }

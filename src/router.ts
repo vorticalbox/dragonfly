@@ -4,6 +4,7 @@ import posts from './posts/post_handlers.ts';
 import user_router from './users/user_router.ts';
 import comment from './comments/comment_handlers.ts';
 import { validate_token } from './middleware/token.ts';
+import { CTX } from "./types/oak.ts";
 const { Router } = oak;
 const router = new Router();
 
@@ -16,16 +17,18 @@ router.use(async (ctx, next) => {
       return ctx.response.body = {
         message: 'validation error',
         issues: error.issues,
+        isOperational: true,
       }
     }
     console.error(error);
     ctx.response.status = 500
     return ctx.response.body = {
       message: 'There was a problem handling this request',
+      isOperational: false,
     }
   }
 });
-router.get('/heartbeat', ({ response }: oak.Context) => response.body = 'hello world');
+router.get('/heartbeat', ({ response }: CTX) => response.body = 'hello world');
 user_router(router);
 router.use(validate_token);
 router.get('/post', posts.getPosts);

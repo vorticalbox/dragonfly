@@ -6,8 +6,4 @@ export interface UserLean {
   password: string
 }
 
-export interface ctx extends oak.Context {
-  user: UserLean
-}
-
 export type CreateUser = Omit<UserLean, '_id'>

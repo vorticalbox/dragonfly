@@ -1,7 +1,7 @@
-import { z, oak } from '../deps.ts'
+import { z } from '../deps.ts'
 import Post from './post_model.ts';
-import { get_user } from "../users/user_service.ts";
 import parseQuery from '../utils/query.ts';
+import { CTX } from "../types/oak.ts";
 
 const postValidation = z.object({
   title: z.string()
@@ -13,15 +13,15 @@ const postValidation = z.object({
 })
 
 
-export async function getPosts(ctx: oak.Context) {
+export async function getPosts(ctx: CTX) {
   const { skip, limit } = parseQuery(ctx)
   ctx.response.body = await Post.skip(skip).limit(limit).orderBy('updatedAt', "desc").all()
 }
 
-export async function addPost(ctx: oak.Context) {
+export async function addPost(ctx: CTX) {
   const post = await ctx.request.body({ type: "json" }).value;
   const parsedPost = postValidation.parse(post);
-  const user = get_user(ctx);
+  const user = ctx.state.user;
   ctx.response.body = await Post.create({ ...parsedPost, username: user.username });
 }
 

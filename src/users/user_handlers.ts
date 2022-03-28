@@ -1,7 +1,7 @@
-import { oak } from '../deps.ts'
+import { CTX } from "../types/oak.ts";
 import * as user_service from './user_service.ts';
 
-export async function register({ request, response }: oak.Context) {
+export async function register({ request, response }:CTX) {
   const body = await request.body({ type: "json" }).value;
 
   // check if we have this user name
@@ -15,7 +15,7 @@ export async function register({ request, response }: oak.Context) {
   }
 }
 
-export async function login({ request, response }: oak.Context) {
+export async function login({ request, response }:CTX) {
   const { username, password } = await request.body({ type: "json" }).value;
 
   // check if we have this user name

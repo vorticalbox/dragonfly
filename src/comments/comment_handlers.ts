@@ -3,6 +3,7 @@ import Comment from './comment_model.ts';
 import Post from '../posts/post_model.ts';
 import { get_user } from "../users/user_service.ts";
 import parseQuery from '../utils/query.ts'
+import { CTX } from "../types/oak.ts";
 
 
 const { helpers } = oak;
@@ -14,7 +15,7 @@ const commentValidation = z.object({
     .max(2000, 'title must not be longer then 2000 characters'),
 });
 
-export async function getComments(ctx: oak.Context) {
+export async function getComments(ctx: CTX) {
   const { post_id } = helpers.getQuery(ctx, { mergeParams: true });
   const { skip, limit } = parseQuery(ctx);
   if (!post_id) {
@@ -26,7 +27,7 @@ export async function getComments(ctx: oak.Context) {
 }
 
 
-export async function addComment(ctx: oak.Context) {
+export async function addComment(ctx: CTX) {
   const { post_id } = helpers.getQuery(ctx, { mergeParams: true });
   if (!post_id) {
     ctx.response.status = 404;
@@ -40,7 +41,7 @@ export async function addComment(ctx: oak.Context) {
     ctx.response.status = 404;
     ctx.response.body = 'Invalid post_id';
   } else {
-    const user = get_user(ctx);
+    const user = ctx.state.user;
     ctx.response.body = await Comment.create({ ...parsed_comment, username: user.username });
   }
 }
