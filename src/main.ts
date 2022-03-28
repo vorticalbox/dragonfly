@@ -4,7 +4,7 @@ import router from './router.ts';
 //models
 import PostModel from "./posts/post_model.ts";
 import UserModel from './users/user_model.ts';
-import SessionModel from './users/user_session.ts';
+import SessionModel from './users/user_session_model.ts';
 import CommentModel from './comments/comment_model.ts';
 
 const { Application } = oak;

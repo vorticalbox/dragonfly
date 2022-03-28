@@ -1,6 +1,6 @@
 import { z, oak } from '../deps.ts'
 import Post from './post_model.ts';
-import { getLoggedInUser } from "../users/user_handlers.ts";
+import { get_user } from "../users/user_service.ts";
 import parseQuery from '../utils/query.ts';
 
 const postValidation = z.object({
@@ -21,7 +21,7 @@ export async function getPosts(ctx: oak.Context) {
 export async function addPost(ctx: oak.Context) {
   const post = await ctx.request.body({ type: "json" }).value;
   const parsedPost = postValidation.parse(post);
-  const user = getLoggedInUser(ctx);
+  const user = get_user(ctx);
   ctx.response.body = await Post.create({ ...parsedPost, username: user.username });
 }
 

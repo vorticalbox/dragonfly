@@ -1,7 +1,7 @@
 import { z, oak } from '../deps.ts'
 import Comment from './comment_model.ts';
 import Post from '../posts/post_model.ts';
-import { getLoggedInUser } from "../users/user_handlers.ts";
+import { get_user } from "../users/user_service.ts";
 import parseQuery from '../utils/query.ts'
 
 
@@ -40,7 +40,7 @@ export async function addComment(ctx: oak.Context) {
     ctx.response.status = 404;
     ctx.response.body = 'Invalid post_id';
   } else {
-    const user = getLoggedInUser(ctx);
+    const user = get_user(ctx);
     ctx.response.body = await Comment.create({ ...parsed_comment, username: user.username });
   }
 }

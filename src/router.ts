@@ -1,8 +1,9 @@
 import { oak, z, } from "./deps.ts";
 // controller imports
 import posts from './posts/post_handlers.ts';
-import user from './users/user_handlers.ts';
+import user_router from './users/user_router.ts';
 import comment from './comments/comment_handlers.ts';
+import { validate_token } from './middleware/token.ts';
 const { Router } = oak;
 const router = new Router();
 
@@ -25,21 +26,8 @@ router.use(async (ctx, next) => {
   }
 });
 router.get('/heartbeat', ({ response }: oak.Context) => response.body = 'hello world');
-router.post('/register', user.register);
-router.post('/login', user.login);
-router.use(async (ctx, next) => {
-  const token = ctx.request.headers.get('X-access-token');
-  const userDoc = await user.verifyToken(token);
-  if (!userDoc) {
-    ctx.response.status = 401;
-    ctx.response.body = 'access denied';
-  } else {
-    // TODO(@vorticalbox): type this
-    // @ts-ignore: middleware adds user to ctx but this is currently not typed
-    ctx.user = userDoc;
-    await next();
-  }
-})
+user_router(router);
+router.use(validate_token);
 router.get('/post', posts.getPosts);
 router.post('/post', posts.addPost);
 router.get('/comment', comment.getComments);
