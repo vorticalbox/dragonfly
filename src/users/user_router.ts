@@ -4,7 +4,6 @@ import { oak } from '../deps.ts'
 import { registerSchema } from './user_validation.ts'
 
 export default function (router: oak.Router) {
-  router.use(validate(registerSchema));
-  router.post('/register', user.register);
-  router.post('/login', user.login);
+  router.post('/register', validate(registerSchema), user.register);
+  router.post('/login', validate(registerSchema), user.login);
 }

@@ -28,5 +28,6 @@ export async function create_session(username: string) {
 export async function verifyToken(token: string | null) {
   if (!token) return false;
   const session = await Session.where('token', token).first();
+  if (!session) return false;
   return User.where('username', session.username as string).first();
 }

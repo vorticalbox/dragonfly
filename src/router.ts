@@ -2,6 +2,7 @@ import { oak, z, } from "./deps.ts";
 // controller imports
 import posts from './posts/post_handlers.ts';
 import user_router from './users/user_router.ts';
+import post_router from './posts/post_router.ts';
 import comment from './comments/comment_handlers.ts';
 import { validate_token } from './middleware/token.ts';
 import { CTX } from "./types/oak.ts";
@@ -30,9 +31,9 @@ router.use(async (ctx, next) => {
 });
 router.get('/heartbeat', ({ response }: CTX) => response.body = 'hello world');
 user_router(router);
+// thing below here requires a token
 router.use(validate_token);
-router.get('/post', posts.getPosts);
-router.post('/post', posts.addPost);
+post_router(router);
 router.get('/comment', comment.getComments);
 router.post('/comment', comment.addComment);
 
