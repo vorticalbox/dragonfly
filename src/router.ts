@@ -1,9 +1,8 @@
 import { oak, z, } from "./deps.ts";
 // controller imports
-import posts from './posts/post_handlers.ts';
 import user_router from './users/user_router.ts';
 import post_router from './posts/post_router.ts';
-import comment from './comments/comment_handlers.ts';
+import comment_router from './comments/comment_router.ts';
 import { validate_token } from './middleware/token.ts';
 import { CTX } from "./types/oak.ts";
 const { Router } = oak;
@@ -34,8 +33,7 @@ user_router(router);
 // thing below here requires a token
 router.use(validate_token);
 post_router(router);
-router.get('/comment', comment.getComments);
-router.post('/comment', comment.addComment);
+comment_router(router)
 
 router.use((ctx) => {
   ctx.response.status = 404;
