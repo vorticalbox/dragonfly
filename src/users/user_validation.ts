@@ -1,6 +1,6 @@
 import { z } from "../deps.ts";
 
-export const registerSchema = z.object({
+export const register_schema = z.object({
   username: z.string()
     .max(150, 'username must not be longer then 50 characters'),
   password: z.string()

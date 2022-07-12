@@ -4,7 +4,7 @@ import { UserLean } from "../users/user_types.ts";
 
 export async function validate_token(ctx: CTX, next: any) {
   const token = ctx.request.headers.get('X-access-token');
-  const userDoc = await user_service.verifyToken(token);
+  const userDoc = await user_service.verify_token(token);
   if (!userDoc) {
     ctx.response.status = 401;
     ctx.response.body = 'access denied';

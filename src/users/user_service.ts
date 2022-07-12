@@ -1,8 +1,7 @@
 import { scrypt } from "../deps.ts";
-import { CTX } from "../types/oak.ts";
 import User from "./user_model.ts";
 import Session from "./user_session_model.ts";
-import { CreateUser, UserLean } from "./user_types.ts";
+import { CreateUser } from "./user_types.ts";
 
 // find user
 export function find_user(username: string) {
@@ -25,7 +24,7 @@ export async function create_session(username: string) {
   return Session.create({ username: username, token });
 }
 
-export async function verifyToken(token: string | null) {
+export async function verify_token(token: string | null) {
   if (!token) return false;
   const session = await Session.where('token', token).first();
   if (!session) return false;
