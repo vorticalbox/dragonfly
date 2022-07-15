@@ -8,7 +8,7 @@ export function get_posts(skip: number, limit: number) {
 }
 
 export function get_post(_id: any) {
-  return Post.where({ _id }).all();
+  return Post.where({ _id }).first();
 }
 
 export function create_post(request_body: Record<string, unknown>, user: UserLean) {
